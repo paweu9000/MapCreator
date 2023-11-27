@@ -9,6 +9,15 @@ Entity::Entity(Program* program)
 	mProgram->addEntity(this);
 }
 
+Entity::~Entity()
+{
+	mProgram->RemoveEntity(this);
+	while (!mComponents.empty())
+	{
+		delete mComponents.back();
+	}
+}
+
 void Entity::UpdateComponents()
 {
 	for (auto component : mComponents)

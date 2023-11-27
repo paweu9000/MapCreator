@@ -1,5 +1,10 @@
 #include "Program.h"
 #include "Entity.h"
+#include "SDL_image.h"
+#include <algorithm>
+#include "SpriteComponent.h"
+#include "ButtonEntity.h"
+#include <iostream>
 
 Program::Program()
 	:mIsRunning(true)
@@ -26,7 +31,52 @@ bool Program::Initialize()
 		SDL_Log("Failed to initialize renderer: %s", SDL_GetError());
 		return false;
 	}
+	if (IMG_Init(IMG_INIT_PNG) == 0)
+	{
+		SDL_Log("Failed to initialize SDL_Image: %s", SDL_GetError());
+	}
+
+	LoadData();
+
 	return true;
+}
+
+SDL_Texture* Program::GetTexture(std::string& filename)
+{
+	SDL_Texture* texture = nullptr;
+	auto iter = mTextures.find(filename);
+	if (iter != mTextures.end())
+	{
+		texture = iter->second;
+	}
+	else
+	{
+		SDL_Surface* surface = IMG_Load(filename.c_str());
+		if (!surface)
+		{
+			SDL_Log("Failed to load texture file %s", filename);
+			return nullptr;
+		}
+
+		texture = SDL_CreateTextureFromSurface(mRenderer, surface);
+		SDL_FreeSurface(surface);
+		if (!texture)
+		{
+			SDL_Log("Failed to convert surface to texture for %s", filename);
+			return nullptr;
+		}
+		mTextures.emplace(filename, texture);
+	}
+	return texture;
+}
+
+void Program::RemoveEntity(Entity* entity)
+{
+	auto iter = std::find(mEntities.begin(), mEntities.end(), entity);
+	if (iter != mEntities.end())
+	{
+		mEntities.erase(iter);
+	}
 }
 
 void Program::RunLoop()
@@ -60,7 +110,46 @@ void Program::UpdateProgram()
 
 void Program::GenerateOutput()
 {
+	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0);
+	SDL_RenderClear(mRenderer);
+	for (auto sprite : mSprites)
+	{
+		sprite->Draw(mRenderer);
+	}
+	SDL_RenderPresent(mRenderer);
+}
 
+void Program::LoadData()
+{
+	SDL_Rect r{ 0, 0, 64, 64 };
+	ButtonEntity* button = new ButtonEntity(this, "textures/exit_button.png", r);
+}
+
+void Program::AddSprite(SpriteComponent* sprite)
+{
+	// Find the insertion point in the sorted vector
+	// (The first element with a higher draw order than me)
+	int myDrawOrder = sprite->GetDrawOrder();
+	auto iter = mSprites.begin();
+	for (;
+		iter != mSprites.end();
+		++iter)
+	{
+		if (myDrawOrder < (*iter)->GetDrawOrder())
+		{
+			break;
+		}
+	}
+
+	// Inserts element before position of iterator
+	mSprites.insert(iter, sprite);
+}
+
+void Program::RemoveSprite(SpriteComponent* sprite)
+{
+	// (We can't swap because it ruins ordering)
+	auto iter = std::find(mSprites.begin(), mSprites.end(), sprite);
+	mSprites.erase(iter);
 }
 
 void Program::addEntity(Entity* entity)
