@@ -1,4 +1,5 @@
 #include "Program.h"
+#include "Entity.h"
 
 Program::Program()
 	:mIsRunning(true)
@@ -60,6 +61,11 @@ void Program::UpdateProgram()
 void Program::GenerateOutput()
 {
 
+}
+
+void Program::addEntity(Entity* entity)
+{
+	mEntities.emplace_back(entity);
 }
 
 void Program::Shutdown()
