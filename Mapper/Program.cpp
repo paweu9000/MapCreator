@@ -6,6 +6,7 @@
 #include "ButtonEntity.h"
 #include <iostream>
 #include <filesystem>
+#include "TileBox.h"
 
 Program::Program()
 	:mIsRunning(true)
@@ -150,6 +151,7 @@ void Program::LoadData()
 {
 	SDL_Rect r{ 0, 0, 64, 64 };
 	ButtonEntity* button = new ButtonEntity(this, "textures/exit_button.png", r);
+	TileBox* tilebox = new TileBox(this);
 	LoadTiles();
 }
 
