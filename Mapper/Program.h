@@ -7,11 +7,6 @@
 class Program
 {
 public:
-	struct TileLayer
-	{
-		SDL_Texture* tile;
-		int layer;
-	};
 	Program();
 	bool Initialize();
 	void RunLoop();
@@ -33,5 +28,4 @@ private:
 	std::vector<class Entity*> mEntities;
 	std::vector<class SpriteComponent*> mSprites;
 	std::unordered_map<std::string, SDL_Texture*> mTextures;
-	std::unordered_map<std::string, TileLayer> mTiles;
 };
