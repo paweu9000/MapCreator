@@ -5,6 +5,7 @@
 #include "SpriteComponent.h"
 #include "ButtonEntity.h"
 #include <iostream>
+#include <filesystem>
 
 Program::Program()
 	:mIsRunning(true)
@@ -70,6 +71,32 @@ SDL_Texture* Program::GetTexture(std::string& filename)
 	return texture;
 }
 
+void Program::LoadTiles()
+{
+	const std::filesystem::path currentPath = std::filesystem::current_path();
+	auto loadFiles = [this](const std::filesystem::path path, int layer) {
+			if (std::filesystem::exists(path) && std::filesystem::is_directory(path)) {
+				for (const auto& entry : std::filesystem::directory_iterator(path)) {
+					std::string fileName = entry.path().filename().string();
+					std::string filePath = entry.path().string();
+					SDL_Texture* texture = GetTexture(filePath);
+					Program::TileLayer newTile = { texture, layer };
+					mTiles.emplace(fileName, newTile);
+					std::cout << "Put tile " << fileName << "\n";
+				}
+			}
+			else {
+				std::cerr << "Directory not found: " << path << std::endl;
+			}
+		};
+	const std::filesystem::path layer1Path = currentPath / "tiles" / "layer1";
+	const std::filesystem::path layer2Path = currentPath / "tiles" / "layer2";
+	const std::filesystem::path layer3Path = currentPath / "tiles" / "layer3";
+	loadFiles(layer1Path, 1);
+	loadFiles(layer2Path, 2);
+	loadFiles(layer3Path, 3);
+}
+
 void Program::RemoveEntity(Entity* entity)
 {
 	auto iter = std::find(mEntities.begin(), mEntities.end(), entity);
@@ -123,6 +150,7 @@ void Program::LoadData()
 {
 	SDL_Rect r{ 0, 0, 64, 64 };
 	ButtonEntity* button = new ButtonEntity(this, "textures/exit_button.png", r);
+	LoadTiles();
 }
 
 void Program::AddSprite(SpriteComponent* sprite)
