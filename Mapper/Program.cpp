@@ -7,6 +7,7 @@
 #include <iostream>
 #include <filesystem>
 #include "TileBox.h"
+#include "Tile.h"
 
 Program::Program()
 	:mIsRunning(true)
@@ -72,17 +73,17 @@ SDL_Texture* Program::GetTexture(std::string& filename)
 	return texture;
 }
 
-void Program::LoadTiles()
+void Program::LoadTiles(TileBox* tilebox)
 {
 	const std::filesystem::path currentPath = std::filesystem::current_path();
-	auto loadFiles = [this](const std::filesystem::path path, int layer) {
+	auto loadFiles = [this, &tilebox](const std::filesystem::path path, int layer) {
 			if (std::filesystem::exists(path) && std::filesystem::is_directory(path)) {
 				for (const auto& entry : std::filesystem::directory_iterator(path)) {
 					std::string fileName = entry.path().filename().string();
 					std::string filePath = entry.path().string();
 					SDL_Texture* texture = GetTexture(filePath);
-					Program::TileLayer newTile = { texture, layer };
-					mTiles.emplace(fileName, newTile);
+					mTextures.emplace(fileName, texture);
+					tilebox->AddTile(fileName, layer);
 					std::cout << "Put tile " << fileName << "\n";
 				}
 			}
@@ -152,7 +153,7 @@ void Program::LoadData()
 	SDL_Rect r{ 0, 0, 64, 64 };
 	ButtonEntity* button = new ButtonEntity(this, "textures/exit_button.png", r);
 	TileBox* tilebox = new TileBox(this);
-	LoadTiles();
+	LoadTiles(tilebox);
 }
 
 void Program::AddSprite(SpriteComponent* sprite)

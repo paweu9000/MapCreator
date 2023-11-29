@@ -22,7 +22,7 @@ public:
 	void RemoveEntity(class Entity* entity);
 	void AddSprite(class SpriteComponent* sprite);
 	void RemoveSprite(class SpriteComponent* sprite);
-	void LoadTiles();
+	void LoadTiles(class TileBox* tilebox);
 	void LoadData();
 	void Shutdown();
 	SDL_Texture* GetTexture(std::string& filename);
