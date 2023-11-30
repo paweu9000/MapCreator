@@ -18,14 +18,6 @@ Entity::~Entity()
 	}
 }
 
-void Entity::UpdateComponents()
-{
-	for (auto component : mComponents)
-	{
-		component->Update();
-	}
-}
-
 void Entity::AddComponent(Component* component)
 {
 	int mOrder = component->GetUpdateOrder();
