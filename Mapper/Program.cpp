@@ -134,7 +134,10 @@ void Program::ProcessInput()
 
 void Program::UpdateProgram()
 {
-
+	for (auto e : mEntities)
+	{
+		e->UpdateComponents();
+	}
 }
 
 void Program::GenerateOutput()
@@ -143,7 +146,10 @@ void Program::GenerateOutput()
 	SDL_RenderClear(mRenderer);
 	for (auto sprite : mSprites)
 	{
-		sprite->Draw(mRenderer);
+		if (sprite->GetVisibility())
+		{
+			sprite->Draw(mRenderer);
+		}
 	}
 	SDL_RenderPresent(mRenderer);
 }

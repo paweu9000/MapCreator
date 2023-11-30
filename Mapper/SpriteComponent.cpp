@@ -10,6 +10,7 @@ SpriteComponent::SpriteComponent(Entity* entity, int drawOrder, const SDL_Rect& 
 	,mDrawOrder(drawOrder)
 	,mTexWidth(0)
 	,mTexHeight(0)
+	,mVisible(true)
 {
 	mOwner->getProgram()->AddSprite(this);
 }

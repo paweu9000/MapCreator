@@ -14,10 +14,13 @@ public:
 	int GetDrawOrder() const { return mDrawOrder; }
 	int GetTexHeight() const { return mTexHeight; }
 	int GetTexWidth() const { return mTexWidth; }
+	void setVisibility(bool visibility) { mVisible = visibility; }
+	bool GetVisibility() const { return mVisible; }
 protected:
 	SDL_Texture* mTexture;
 	const SDL_Rect mRect;
 	int mDrawOrder;
 	int mTexWidth;
 	int mTexHeight;
+	bool mVisible;
 };
