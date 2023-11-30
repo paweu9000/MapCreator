@@ -17,6 +17,7 @@ public:
 	void AddComponent(class Component* component);
 	void RemoveComponent(class Component* component);
 	Program* getProgram() const { return mProgram; }
+	virtual void ProcessMouseInput(int x, int y) { /* To implement in child class */ }
 protected:
 	class Program* mProgram;
 	std::vector<class Component*> mComponents;
