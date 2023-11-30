@@ -121,6 +121,7 @@ void Program::RunLoop()
 void Program::ProcessInput()
 {
 	SDL_Event event;
+	bool clicked = false;
 	while (SDL_PollEvent(&event))
 	{
 		switch (event.type)
@@ -128,6 +129,17 @@ void Program::ProcessInput()
 		case SDL_QUIT:
 			mIsRunning = false;
 			break;
+		case SDL_MOUSEBUTTONDOWN:
+			clicked = true;
+		}
+	}
+	int mouseX, mouseY;
+	SDL_GetMouseState(&mouseX, &mouseY);
+	if (mouseX && mouseY && clicked)
+	{
+		for (auto entity : mEntities)
+		{
+			entity->ProcessMouseInput(mouseX, mouseY);
 		}
 	}
 }
@@ -157,7 +169,11 @@ void Program::GenerateOutput()
 void Program::LoadData()
 {
 	SDL_Rect r{ 0, 0, 64, 64 };
-	ButtonEntity* button = new ButtonEntity(this, "textures/exit_button.png", r);
+	ButtonEntity* exitButton = new ButtonEntity(this, "textures/exit_button.png", r);
+	auto exitButtonAction = [this]() {
+		Shutdown();
+	};
+	exitButton->SetAction(exitButtonAction);
 	TileBox* tilebox = new TileBox(this);
 	LoadTiles(tilebox);
 }
