@@ -15,6 +15,7 @@ public:
 	SDL_Rect CalculateRect(int size);
 	void AddTile(std::string tileName, int layer);
 	void UpdateComponents() override;
+	void SetActiveLayer(ActiveLayer layer) { mActiveLayer = layer; }
 private:
 	std::vector<class Tile*> mLayer1Tiles;
 	std::vector<class Tile*> mLayer2Tiles;
