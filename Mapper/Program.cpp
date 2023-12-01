@@ -175,6 +175,21 @@ void Program::LoadData()
 	};
 	exitButton->SetAction(exitButtonAction);
 	TileBox* tilebox = new TileBox(this);
+	ButtonEntity* layer1Button = new ButtonEntity(this, "textures/layer1_button.png", { 1310, 34, 16, 16 });
+	ButtonEntity* layer2Button = new ButtonEntity(this, "textures/layer2_button.png", { 1330, 34, 16, 16 });
+	ButtonEntity* layer3Button = new ButtonEntity(this, "textures/layer3_button.png", { 1350, 34, 16, 16 });
+	auto changeToLayer1 = [tilebox]() {
+		tilebox->SetActiveLayer(TileBox::ActiveLayer::LAYER1);
+	};
+	auto changeToLayer2 = [tilebox]() {
+		tilebox->SetActiveLayer(TileBox::ActiveLayer::LAYER2);
+	};
+	auto changeToLayer3 = [tilebox]() {
+		tilebox->SetActiveLayer(TileBox::ActiveLayer::LAYER3);
+	};
+	layer1Button->SetAction(changeToLayer1);
+	layer2Button->SetAction(changeToLayer2);
+	layer3Button->SetAction(changeToLayer3);
 	LoadTiles(tilebox);
 }
 
