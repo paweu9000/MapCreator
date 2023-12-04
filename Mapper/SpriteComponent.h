@@ -1,11 +1,12 @@
 #pragma once
 #include "Component.h"
 #include "SDL.h"
+#include <iostream>
 
 class SpriteComponent : public Component
 {
 public:
-	SpriteComponent(class Entity* entity, int drawOrder = 100, const SDL_Rect& rect = {0,0,0,0});
+	SpriteComponent(class Entity* entity, int drawOrder = 100, SDL_Rect rect = {0,0,0,0});
 	~SpriteComponent();
 
 	virtual void Draw(SDL_Renderer* renderer);
@@ -16,9 +17,10 @@ public:
 	int GetTexWidth() const { return mTexWidth; }
 	void setVisibility(bool visibility) { mVisible = visibility; }
 	bool GetVisibility() const { return mVisible; }
+	void SetRect(SDL_Rect rect) { mRect = rect; }
 protected:
 	SDL_Texture* mTexture;
-	const SDL_Rect mRect;
+	SDL_Rect mRect;
 	int mDrawOrder;
 	int mTexWidth;
 	int mTexHeight;

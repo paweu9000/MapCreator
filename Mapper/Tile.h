@@ -11,7 +11,12 @@ public:
 	int getLayer() const { return mLayer; }
 	void setVisibility(bool visibility) { mVisible = visibility; }
 	void UpdateComponents() override;
+	SDL_Rect GetRect() const { return mRect; }
+	bool IsInBounds(int x, int y) override;
+	std::string GetTextureName() const { return mTextureName; }
 private:
 	int mLayer;
 	bool mVisible;
+	std::string mTextureName;
+	SDL_Rect mRect;
 };
