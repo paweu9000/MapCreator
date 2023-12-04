@@ -60,8 +60,8 @@ void TileBox::UpdateComponents()
 
 SDL_Rect TileBox::CalculateRect(int size)
 {
-	int row = size / 3;
-	int column = size % 3;
+	int row = size / 4;
+	int column = size % 4;
 
 	SDL_Rect rect;
 	rect.x = 1320 + column * 60;
