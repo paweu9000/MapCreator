@@ -9,6 +9,7 @@
 #include "TileBox.h"
 #include "Tile.h"
 #include "SelectedTile.h"
+#include <iostream>
 
 Program::Program()
 	:mIsRunning(true)
@@ -144,13 +145,7 @@ void Program::ProcessInput()
 			entity->ProcessMouseInput(mouseX, mouseY);
 			if (entity->IsInBounds(mouseX, mouseY))
 			{
-				Tile* t = dynamic_cast<Tile*>(entity);
-				SelectedTile* sTile = new SelectedTile(this, mouseX, mouseY, t->getLayer());
-				auto sprite = new SpriteComponent(sTile, 205 + t->getLayer(), { mouseX, mouseY, 50, 50 });
-				std::string textureName = t->GetTextureName();
-				std::string& ref = textureName;
-				sprite->SetTexture(this->GetTexture(ref));
-				mSelectedTile = sTile;
+				SelectTile(entity, mouseX, mouseY);
 			}
 		}
 	}
@@ -158,6 +153,25 @@ void Program::ProcessInput()
 	{
 		mSelectedTile->SetCoordinates(mouseX, mouseY);
 	}
+}
+
+void Program::SelectTile(Entity* entity, int x, int y)
+{
+	if (mSelectedTile) {
+		for (auto comp : mSelectedTile->GetComponents())
+		{
+			this->RemoveSprite(dynamic_cast<SpriteComponent*>(comp));
+		}
+		delete mSelectedTile;
+		mSelectedTile = nullptr;
+	}
+	Tile* t = dynamic_cast<Tile*>(entity);
+	SelectedTile* sTile = new SelectedTile(this, x, y, t->getLayer());
+	auto sprite = new SpriteComponent(sTile, 205 + t->getLayer(), { x, y, 50, 50 });
+	std::string textureName = t->GetTextureName();
+	std::string& ref = textureName;
+	sprite->SetTexture(this->GetTexture(ref));
+	mSelectedTile = sTile;
 }
 
 void Program::UpdateProgram()
