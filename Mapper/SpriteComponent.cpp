@@ -3,7 +3,7 @@
 #include "Program.h"
 #include <iostream>
 
-SpriteComponent::SpriteComponent(Entity* entity, int drawOrder, const SDL_Rect& rect)
+SpriteComponent::SpriteComponent(Entity* entity, int drawOrder, SDL_Rect rect)
 	:Component(entity)
 	,mTexture(nullptr)
 	,mRect(rect)

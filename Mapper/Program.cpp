@@ -8,11 +8,13 @@
 #include <filesystem>
 #include "TileBox.h"
 #include "Tile.h"
+#include "SelectedTile.h"
 
 Program::Program()
 	:mIsRunning(true)
 	,mRenderer(nullptr)
 	,mWindow(nullptr)
+	,mSelectedTile(nullptr)
 {}
 
 bool Program::Initialize()
@@ -140,7 +142,21 @@ void Program::ProcessInput()
 		for (auto entity : mEntities)
 		{
 			entity->ProcessMouseInput(mouseX, mouseY);
+			if (entity->IsInBounds(mouseX, mouseY))
+			{
+				Tile* t = dynamic_cast<Tile*>(entity);
+				SelectedTile* sTile = new SelectedTile(this, mouseX, mouseY, t->getLayer());
+				auto sprite = new SpriteComponent(sTile, 205 + t->getLayer(), { mouseX, mouseY, 50, 50 });
+				std::string textureName = t->GetTextureName();
+				std::string& ref = textureName;
+				sprite->SetTexture(this->GetTexture(ref));
+				mSelectedTile = sTile;
+			}
 		}
+	}
+	if (mSelectedTile)
+	{
+		mSelectedTile->SetCoordinates(mouseX, mouseY);
 	}
 }
 
@@ -195,8 +211,6 @@ void Program::LoadData()
 
 void Program::AddSprite(SpriteComponent* sprite)
 {
-	// Find the insertion point in the sorted vector
-	// (The first element with a higher draw order than me)
 	int myDrawOrder = sprite->GetDrawOrder();
 	auto iter = mSprites.begin();
 	for (;
@@ -209,13 +223,11 @@ void Program::AddSprite(SpriteComponent* sprite)
 		}
 	}
 
-	// Inserts element before position of iterator
 	mSprites.insert(iter, sprite);
 }
 
 void Program::RemoveSprite(SpriteComponent* sprite)
 {
-	// (We can't swap because it ruins ordering)
 	auto iter = std::find(mSprites.begin(), mSprites.end(), sprite);
 	mSprites.erase(iter);
 }

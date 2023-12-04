@@ -28,4 +28,5 @@ private:
 	std::vector<class Entity*> mEntities;
 	std::vector<class SpriteComponent*> mSprites;
 	std::unordered_map<std::string, SDL_Texture*> mTextures;
+	class SelectedTile* mSelectedTile;
 };
