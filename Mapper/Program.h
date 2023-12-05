@@ -22,6 +22,7 @@ public:
 	void Shutdown();
 	SDL_Texture* GetTexture(std::string& filename);
 	void SelectTile(Entity* e, int x, int y);
+	void RemoveSelectedTile();
 private:
 	bool mIsRunning;
 	SDL_Renderer* mRenderer;

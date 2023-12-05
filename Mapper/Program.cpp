@@ -133,7 +133,10 @@ void Program::ProcessInput()
 			mIsRunning = false;
 			break;
 		case SDL_MOUSEBUTTONDOWN:
-			clicked = true;
+			Uint32 mouseButtonState = SDL_GetMouseState(nullptr, nullptr);
+			if (mouseButtonState & SDL_BUTTON(SDL_BUTTON_LEFT)) clicked = true;
+			else if (mouseButtonState & SDL_BUTTON(SDL_BUTTON_RIGHT)) RemoveSelectedTile();
+			break;
 		}
 	}
 	int mouseX, mouseY;
@@ -157,14 +160,7 @@ void Program::ProcessInput()
 
 void Program::SelectTile(Entity* entity, int x, int y)
 {
-	if (mSelectedTile) {
-		for (auto comp : mSelectedTile->GetComponents())
-		{
-			this->RemoveSprite(dynamic_cast<SpriteComponent*>(comp));
-		}
-		delete mSelectedTile;
-		mSelectedTile = nullptr;
-	}
+	RemoveSelectedTile();
 	Tile* t = dynamic_cast<Tile*>(entity);
 	SelectedTile* sTile = new SelectedTile(this, x, y, t->getLayer());
 	auto sprite = new SpriteComponent(sTile, 205 + t->getLayer(), { x, y, 50, 50 });
@@ -172,6 +168,19 @@ void Program::SelectTile(Entity* entity, int x, int y)
 	std::string& ref = textureName;
 	sprite->SetTexture(this->GetTexture(ref));
 	mSelectedTile = sTile;
+}
+
+void Program::RemoveSelectedTile()
+{
+	if (mSelectedTile)
+	{
+		for (auto comp : mSelectedTile->GetComponents())
+		{
+			this->RemoveSprite(dynamic_cast<SpriteComponent*>(comp));
+		}
+		delete mSelectedTile;
+		mSelectedTile = nullptr;
+	}
 }
 
 void Program::UpdateProgram()
