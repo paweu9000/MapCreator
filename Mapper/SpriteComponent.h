@@ -18,6 +18,7 @@ public:
 	void setVisibility(bool visibility) { mVisible = visibility; }
 	bool GetVisibility() const { return mVisible; }
 	void SetRect(SDL_Rect rect) { mRect = rect; }
+	SDL_Texture* GetTexture() { return mTexture; }
 protected:
 	SDL_Texture* mTexture;
 	SDL_Rect mRect;

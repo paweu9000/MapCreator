@@ -9,6 +9,7 @@ public:
 	Grid(class Program* program, int xPoint, int yPoint);
 	void ChangeScale(float scale) { mScale = scale; }
 	void LoadData();
+	void Draw(int mouseX, int mouseY);
 private:
 	int mX;
 	int mY;
