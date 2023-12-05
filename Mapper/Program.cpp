@@ -10,6 +10,7 @@
 #include "Tile.h"
 #include "SelectedTile.h"
 #include <iostream>
+#include "Grid.h"
 
 Program::Program()
 	:mIsRunning(true)
@@ -230,6 +231,7 @@ void Program::LoadData()
 	layer2Button->SetAction(changeToLayer2);
 	layer3Button->SetAction(changeToLayer3);
 	LoadTiles(tilebox);
+	Grid* grid = new Grid(this, 200, 100);
 }
 
 void Program::AddSprite(SpriteComponent* sprite)
