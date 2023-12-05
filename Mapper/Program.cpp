@@ -11,12 +11,14 @@
 #include "SelectedTile.h"
 #include <iostream>
 #include "Grid.h"
+#include "GridTile.h"
 
 Program::Program()
 	:mIsRunning(true)
 	,mRenderer(nullptr)
 	,mWindow(nullptr)
 	,mSelectedTile(nullptr)
+	,mGrid(nullptr)
 {}
 
 bool Program::Initialize()
@@ -144,6 +146,10 @@ void Program::ProcessInput()
 	SDL_GetMouseState(&mouseX, &mouseY);
 	if (mouseX && mouseY && clicked)
 	{
+		if (mSelectedTile && mGrid)
+		{
+			mGrid->Draw(mouseX, mouseY);
+		}
 		for (auto entity : mEntities)
 		{
 			entity->ProcessMouseInput(mouseX, mouseY);
@@ -232,6 +238,7 @@ void Program::LoadData()
 	layer3Button->SetAction(changeToLayer3);
 	LoadTiles(tilebox);
 	Grid* grid = new Grid(this, 200, 100);
+	mGrid = grid;
 }
 
 void Program::AddSprite(SpriteComponent* sprite)
@@ -249,6 +256,16 @@ void Program::AddSprite(SpriteComponent* sprite)
 	}
 
 	mSprites.insert(iter, sprite);
+}
+
+SDL_Texture* Program::GetSelectedTexture()
+{
+	if (mSelectedTile)
+	{
+		SpriteComponent* sc = dynamic_cast<SpriteComponent*>(mSelectedTile->GetComponents()[0]);
+		return sc->GetTexture();
+	}
+	return nullptr;
 }
 
 void Program::RemoveSprite(SpriteComponent* sprite)

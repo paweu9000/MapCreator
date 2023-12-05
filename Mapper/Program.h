@@ -23,6 +23,7 @@ public:
 	SDL_Texture* GetTexture(std::string& filename);
 	void SelectTile(Entity* e, int x, int y);
 	void RemoveSelectedTile();
+	SDL_Texture* GetSelectedTexture();
 private:
 	bool mIsRunning;
 	SDL_Renderer* mRenderer;
@@ -31,4 +32,5 @@ private:
 	std::vector<class SpriteComponent*> mSprites;
 	std::unordered_map<std::string, SDL_Texture*> mTextures;
 	class SelectedTile* mSelectedTile;
+	class Grid* mGrid;
 };
