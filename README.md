@@ -44,5 +44,3 @@ This project is licensed under the [MIT License](LICENSE).
 ## Acknowledgments
 
 - The MapCreator project is built upon the SDL2 library.
-
-*Happy Mapping!*
