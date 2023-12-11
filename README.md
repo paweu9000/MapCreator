@@ -16,10 +16,10 @@ MapCreator is an ongoing project for creating game maps using tiles and layers. 
 1. **Clone the Repository**: 
    ```bash
    git clone https://github.com/your-username/MapCreator.git
-   ## Getting Started
+   ```
 
 ### Build the Project
-Follow the build instructions in the project directory. Ensure you have SDL2 installed.
+*TODO
 
 ### Run the Application
 Execute the compiled executable to launch MapCreator.
