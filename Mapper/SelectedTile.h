@@ -9,6 +9,7 @@ public:
 	void UpdateComponents() override;
 	void SetCoordinates(int x, int y) { mX = x-25; mY = y-25; }
 	std::vector<Component*> GetComponents() { return mComponents; }
+	int GetLayer() { return mLayer; }
 private:
 	int mX;
 	int mY;

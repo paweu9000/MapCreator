@@ -148,7 +148,7 @@ void Program::ProcessInput()
 	{
 		if (mSelectedTile && mGrid)
 		{
-			mGrid->Draw(mouseX, mouseY);
+			mGrid->Draw(mouseX, mouseY, mSelectedTile->GetLayer());
 		}
 		for (auto entity : mEntities)
 		{

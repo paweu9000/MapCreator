@@ -3,13 +3,17 @@
 #include "Grid.h"
 #include "SpriteComponent.h"
 
-GridTile::GridTile(Program* program, SDL_Rect rect, std::string& path)
+GridTile::GridTile(Program* program, SDL_Rect rect, std::string& path, int layer)
 	:Entity(program)
 	,mRect(rect)
 	,mScale(1.0f)
+	,mLayer(layer)
 {
-	SpriteComponent* sc = new SpriteComponent(this, 200, rect);
-	sc->SetTexture(mProgram->GetTexture(path));
+	if (!path.empty())
+	{
+		SpriteComponent* sc = new SpriteComponent(this, 200+mLayer, rect);
+		sc->SetTexture(mProgram->GetTexture(path));
+	}
 }
 
 bool GridTile::CheckBounds(int x, int y)
@@ -20,9 +24,17 @@ bool GridTile::CheckBounds(int x, int y)
 
 void GridTile::Draw(SDL_Texture* texture)
 {
-	for (auto c : mComponents)
+	if (mComponents.empty())
 	{
-		SpriteComponent* sc = dynamic_cast<SpriteComponent*>(c);
+		SpriteComponent* sc = new SpriteComponent(this, 200 + mLayer, mRect);
 		sc->SetTexture(texture);
+	}
+	else
+	{
+		for (auto c : mComponents)
+		{
+			SpriteComponent* sc = dynamic_cast<SpriteComponent*>(c);
+			sc->SetTexture(texture);
+		}
 	}
 }
