@@ -6,7 +6,7 @@
 class GridTile : public Entity
 {
 public:
-	GridTile(class Program* program, SDL_Rect rect, std::string& path);
+	GridTile(class Program* program, SDL_Rect rect, std::string& path, int layer);
 	void SetScale(float scale) { mScale = scale; }
 	float GetScale() const { return mScale; }
 	bool CheckBounds(int x, int y);
@@ -14,4 +14,5 @@ public:
 private:
 	float mScale;
 	SDL_Rect mRect;
+	int mLayer;
 };
