@@ -16,6 +16,7 @@ public:
 	void ChangeScale(float scale) { mScale = scale; }
 	void LoadData();
 	void Draw(int mouseX, int mouseY, int layer);
+	void getGridData();
 private:
 	int mX;
 	int mY;
