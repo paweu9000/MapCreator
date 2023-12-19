@@ -8,6 +8,7 @@ GridTile::GridTile(Program* program, SDL_Rect rect, std::string& path, int layer
 	,mRect(rect)
 	,mScale(1.0f)
 	,mLayer(layer)
+	,mTextureName("")
 {
 	if (!path.empty())
 	{

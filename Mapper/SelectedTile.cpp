@@ -3,11 +3,12 @@
 #include "SpriteComponent.h"
 #include <iostream>
 
-SelectedTile::SelectedTile(Program* program, int x, int y, int layer)
+SelectedTile::SelectedTile(Program* program, int x, int y, int layer, std::string tName)
 	:Entity(program)
 	, mX(x)
 	, mY(y)
 	, mLayer(layer)
+	, mTextureName(tName)
 {
 }
 

@@ -169,12 +169,18 @@ void Program::SelectTile(Entity* entity, int x, int y)
 {
 	RemoveSelectedTile();
 	Tile* t = dynamic_cast<Tile*>(entity);
-	SelectedTile* sTile = new SelectedTile(this, x, y, t->getLayer());
+	SelectedTile* sTile = new SelectedTile(this, x, y, t->getLayer(), t->GetTextureName());
 	auto sprite = new SpriteComponent(sTile, 205 + t->getLayer(), { x, y, 50, 50 });
 	std::string textureName = t->GetTextureName();
 	std::string& ref = textureName;
 	sprite->SetTexture(this->GetTexture(ref));
 	mSelectedTile = sTile;
+}
+
+std::string Program::GetSelectedTextureName()
+{
+	if (mSelectedTile) return mSelectedTile->getTextureName();
+	return "";
 }
 
 void Program::RemoveSelectedTile()
@@ -243,12 +249,12 @@ void Program::LoadData()
 	auto saveButtonAction = [this]() {
 		Save();
 	};
-	saveButton->SetAction(saveButtonAction);
+	saveButton->SetAction(saveButtonAction); 
 }
 
 void Program::Save()
 {
-	std::cout << "Saved";
+	mGrid->getGridData();
 }
 
 void Program::AddSprite(SpriteComponent* sprite)

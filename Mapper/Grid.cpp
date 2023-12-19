@@ -16,12 +16,12 @@ Grid::Grid(Program* program, int x, int y)
 void Grid::LoadData()
 {
 	std::string path = "textures/gridtileplaceholder.png";
+	std::string empty_str = "";
 	for (int i = 0; i < 13; i++)
 	{
 		mTiles.emplace_back(std::vector<GridLayer>{});
 		for (int j = 0; j < 18; j++)
 		{
-			std::string empty_str = "";
 			SDL_Rect place = { mX + (j * 50), mY + (i * 50), 50, 50 };
 			GridTile* gTile1 = new GridTile(mProgram, place, path, 1);
 			GridTile* gTile2 = new GridTile(mProgram, place, empty_str, 2);
@@ -54,7 +54,29 @@ void Grid::Draw(int mouseX, int mouseY, int layer)
 			if (gTile && gTile->CheckBounds(mouseX, mouseY))
 			{
 				gTile->Draw(mProgram->GetSelectedTexture());
+				gTile->setTextureName(mProgram->GetSelectedTextureName());
 			}
 		}
 	}
+}
+
+void Grid::getGridData()
+{
+	const std::string placeholder = "textures/gridtileplaceholder.png";
+	for (int i = 0; i < mTiles.size(); i++)
+	{
+		std::cout << "\n";
+		for (int j = 0; j < mTiles[i].size(); j++)
+		{
+			GridLayer l = mTiles[i][j];
+			std::cout << "[";
+			std::cout << l.l1tile->getTextureName();
+			std::cout << ",";
+			std::cout << l.l2tile->getTextureName();
+			std::cout << ",";
+			std::cout << l.l3tile->getTextureName();
+			std::cout << "],";
+		}
+	}
+	std::cout << "\n\n";
 }

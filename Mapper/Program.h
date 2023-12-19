@@ -25,6 +25,7 @@ public:
 	void RemoveSelectedTile();
 	SDL_Texture* GetSelectedTexture();
 	void Save();
+	std::string GetSelectedTextureName();
 private:
 	bool mIsRunning;
 	SDL_Renderer* mRenderer;
