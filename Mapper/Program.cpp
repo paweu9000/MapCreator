@@ -239,6 +239,16 @@ void Program::LoadData()
 	LoadTiles(tilebox);
 	Grid* grid = new Grid(this, 200, 100);
 	mGrid = grid;
+	ButtonEntity* saveButton = new ButtonEntity(this, "textures/save_button.png", { 66,0,64,64 });
+	auto saveButtonAction = [this]() {
+		Save();
+	};
+	saveButton->SetAction(saveButtonAction);
+}
+
+void Program::Save()
+{
+	std::cout << "Saved";
 }
 
 void Program::AddSprite(SpriteComponent* sprite)
