@@ -24,6 +24,7 @@ public:
 	void SelectTile(Entity* e, int x, int y);
 	void RemoveSelectedTile();
 	SDL_Texture* GetSelectedTexture();
+	void Save();
 private:
 	bool mIsRunning;
 	SDL_Renderer* mRenderer;
