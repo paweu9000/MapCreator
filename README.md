@@ -15,7 +15,7 @@ MapCreator is an ongoing project for creating game maps using tiles and layers. 
 
 1. **Clone the Repository**: 
    ```bash
-   git clone https://github.com/your-username/MapCreator.git
+   git clone https://github.com/paweu9000/MapCreator.git
    ```
 
 ### Build the Project
